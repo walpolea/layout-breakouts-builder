@@ -1,4 +1,7 @@
 ---
+import "../styles/main.scss";
+import LBEditor from "../components/LBEditor.vue";
+
 
 ---
 
@@ -8,9 +11,10 @@
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>Layout Breakouts Builder</title>
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<h1>Layout Breakouts Builder</h1>
+		<LBEditor client:only />
 	</body>
 </html>
