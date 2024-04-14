@@ -1,20 +1,15 @@
 ---
-import "../styles/main.scss";
-import LBEditor from "../components/LBEditor.vue";
+import Default from "@layouts/default.astro";
+import LBEditor from "@components/LBEditor.vue";
 
+const pageMeta = {
+	"title": "Layout Breakouts Builder",
+  "description": "Generate CSS for the Layout Breakouts pattern"
+};
 
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Layout Breakouts Builder</title>
-	</head>
-	<body>
-		<h1>Layout Breakouts Builder</h1>
-		<LBEditor client:only />
-	</body>
-</html>
+<Default meta={pageMeta}>
+	<h1>Layout Breakouts Builder</h1>
+	<LBEditor client:only />
+</Default>

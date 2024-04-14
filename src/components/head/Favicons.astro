@@ -1,0 +1,62 @@
+---
+import favicons from "favicons"; //`npm install --save-dev favicons` - https://github.com/itgalaxy/favicons
+import fs from "fs/promises";
+import path from "path";
+
+//Props - note faviconsConfig can be used to pass in or overwrite all favicons library config options`
+const { 
+  root = 'public/',
+  icon = 'favicon.svg',
+  dir = 'favicon',
+  backgroundColor = "#ffffff",
+  themeColor = "#ffffff",
+  appName,
+  appShortName,
+  appDescription,
+  faviconsConfig = {}
+} = Astro.props;
+
+const src = `${root}${icon}`; // Icon source file path.
+const dest = `${root}${dir}`; // Output directory path.
+
+const configuration = {
+  path: `/${dir}`,
+  appName: appName,
+  appShortName: appShortName ?? appName,
+  appDescription: appDescription,
+  background: backgroundColor,
+  theme_color: themeColor,
+  icons: {
+    android: true,
+    appleIcon: true,
+    appleStartup: false,
+    favicons: true,
+    windows: false,
+    yandex: false,
+  },
+  ...faviconsConfig,
+};
+
+const response = await favicons(src, configuration);
+
+//Only regenerate files if the destination directory does not exist
+const faviconsExist = await (async path => !!(await fs.stat(path).catch(e => false)))(dest);
+if(!faviconsExist) {
+  
+  console.log("GENERATING FAVICONS");
+  //response.images, response.files, response.html - all potentially useful
+
+  await fs.mkdir(dest, { recursive: true });
+
+  await Promise.all(
+    [...response.images, ...response.files].map(
+      async (f) =>
+        await fs.writeFile(path.join(dest, f.name), f.contents),
+    ),
+  );
+}
+
+---
+
+<!-- Favicons -->
+<Fragment set:html={response?.html.join('\n')}/>

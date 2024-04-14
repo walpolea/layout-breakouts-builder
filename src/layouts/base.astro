@@ -1,0 +1,28 @@
+---
+// Sets up the main base framework for the site, including SEO best practices, GTM/GA tracking
+//ALL Layouts should inherit from this `base.astro` layout unless
+//you clearly need to deviate from the <head> settings on a page
+
+import PageMeta from "@components/head/PageMeta.astro";
+import Favicons from "@components/head/Favicons.astro";
+
+const { title, meta = {} } = Astro.props;
+
+//// META DATA /////
+const MetaDefaults = {}
+////
+
+
+const lang = "en";
+
+---
+<html lang={lang ?? "en"}>
+  <head>
+    <PageMeta title={title} meta={{...MetaDefaults, ...meta}}/>
+    <Favicons />
+    <link rel="sitemap" href="/sitemap-index.xml">
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

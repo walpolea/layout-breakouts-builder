@@ -1,0 +1,41 @@
+---
+/**
+Given a meta object of keys for name and values for content
+<meta> tags will be generated for the page
+*/
+
+const { title, meta = {} } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+//Generate Open Graph equivalents for: title, url, and description
+meta['title'] = title ?? meta['title']; //note that `title` prop supercedes `title` object key
+meta['url'] = meta['url'] ?? canonicalURL.href;
+meta['og:url'] = meta['og:url'] ?? meta['url'];
+meta['og:title'] = meta['og:title'] ?? meta['title'];
+meta['og:description'] = meta['og:description'] ?? meta['description'];
+
+//Generate Open Graph and define twitter:card tag when an image meta is present
+if( meta['image'] ) {
+  
+  if( !meta['image'].startsWith('http') ) {
+    meta['image'] = Astro.site + meta['image'];
+  }
+
+  meta['og:image'] = meta['image'];
+  meta['twitter:card'] =  meta['twitter:card'] ?? 'summary_large_image';
+}
+
+//Remove undefined values before rendering
+Object.keys(meta).forEach(key => meta[key] === undefined && delete meta[key])
+
+---
+
+{ meta['charset'] ? (<meta charset={meta['charset']}>) : (<meta charset="UTF-8">) }
+{ !meta['viewport'] && <meta name="viewport" content="width=device-width, initial-scale=1"> }
+
+<title>{meta['title']}</title>
+<link rel="canonical" href={canonicalURL.href} />
+
+{ Object.keys(meta).map( m => (
+  <meta name={m} content={meta[m]} >
+))}

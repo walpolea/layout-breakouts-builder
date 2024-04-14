@@ -1,0 +1,17 @@
+---
+//Main CSS for all pages
+import '@styles/main.scss';
+
+//Component Imports
+import Base from './base.astro';
+
+const { title, meta = {} } = Astro.props;
+
+---
+<Base title={title} meta={meta}>
+  <main>
+    <section>
+      <slot /> <!-- page content is injected here -->
+    </section>
+  </main>
+</Base>

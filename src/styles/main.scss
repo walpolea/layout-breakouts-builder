@@ -1,5 +1,15 @@
 *, *::before, *::after { box-sizing:border-box }
 
+html {
+	font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+	line-height: 1.5rem;
+	font-size: 1.3em;
+}
+
 body {
 	margin:0;
+}
+
+h1 {
+  text-align:center;
 }

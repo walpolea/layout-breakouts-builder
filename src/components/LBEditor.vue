@@ -3,9 +3,11 @@
 
     <div class="preview-area page-layout">
       <div class="preview-content" v-for="track in tracks" :class="{[track.trackName]:true}">{{ track.trackName.toUpperCase() }} TRACK</div>
+      <div class="preview-content default-content">Default content will sit here</div>
     </div>
 
     <div class="configurator">
+      <p>Configure your layout breakouts! Tracks are ordered from outermost to innermost. The outermost track will always span full width. It's important that track maximum widths should decrease as you move in.</p>
 
       <div>
         <label for="minimumContentPadding">
@@ -15,15 +17,15 @@
       </div>
 
       <ul class="track-definitions">
-        <li v-for="track in tracks" :key="track.trackName" class="track-def">
+        <li v-for="track in tracks" class="track-def">
           <label>
             Track Name:
             <input type="text" v-model="track.trackName">
           </label>
 
-          <label :for="track.trackName">
+          <label>
             Max Width:
-            <input type="text" :id="track.trackName" v-model="track.maxWidth">
+            <input type="text" v-model="track.maxWidth">
           </label>
 
           <label>
@@ -33,16 +35,19 @@
 
           <button class="remove-track-btn" @click="removeTrack(track)">Delete Track</button>
 
-          <div class="ordering-buttons">
+          <span class="ordering-buttons">
             <button class="move-up-btn" @click="moveTrackUp(track)">Up</button>
             <button class="move-down-btn"@click="moveTrackDown(track);">Down</button>
-          </div>
+          </span>
         </li>
       </ul>
         
         <div class="new-track">
-          <input type="text" id="newTrackName" v-model="newTrackName" />
-          <button class="add-track-btn" @click="addTrack()">Add New Track</button>
+          <label>
+            Add a new track: 
+            <input type="text" id="newTrackName" v-model="newTrackName" placeholder="Track Name" />
+          </label>
+          <button class="add-track-btn" @click="addTrack()">Add</button>
         </div>
       </div>
     
@@ -77,11 +82,11 @@ const tracks = ref([
   },
   {
     trackName: 'content',
-    maxWidth: '1200px'
+    maxWidth: '1060px'
   },
   {
     trackName: 'inset-content',
-    maxWidth: '800px'
+    maxWidth: '840px'
   }
 ]);
 const defaultTrack = ref('content');
