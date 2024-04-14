@@ -95,7 +95,7 @@ const sheet = new CSSStyleSheet();
 document.adoptedStyleSheets = [sheet];
 
 const lb = computed( () => {
-  return new LayoutBreakout( minimumContentPadding.value, tracks.value );
+  return new LayoutBreakout( minimumContentPadding.value, tracks.value, defaultTrack.value );
 });
 
 watch( lb, () => {

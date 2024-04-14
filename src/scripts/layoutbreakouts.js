@@ -3,19 +3,21 @@ export class LayoutBreakout {
 
   minimumContentPadding;
   tracks;
+  defaultTrackName;
 
-  constructor(minimumContentPadding, tracks) {
+  constructor(minimumContentPadding, tracks, defaultTrackName = "content") {
     this.minimumContentPadding = minimumContentPadding;
+    this.defaultTrackName = defaultTrackName;
     this.tracks = tracks.map( (t,i) => {
       return new BreakoutTrack(t.trackName, t.maxWidth, i === 0 ? BreakoutTrack.OUTERMOST : i === tracks.length - 1 ? BreakoutTrack.INNERMOST : BreakoutTrack.MIDDLE);
     });
   }
 
-  generateCSS( defaultTrackName = "content") {
+  generateCSS() {
     return `
 
 .page-layout > :where(*), .full-width > :where(*) {
-  grid-column: ${defaultTrackName};
+  grid-column: ${this.defaultTrackName};
 }
 .page-layout, .full-width {
 --minimum-content-padding: ${this.minimumContentPadding};
@@ -39,25 +41,26 @@ ${this.tracks.map(t => t.generateClasses()).join("\n")}
 
   }
 
-  generateTracks( tracks ) {
+  generateTracks( tracks, spaceCount = 1 ) {
 
     if( !tracks.length ) {
       return '';
     }
 
+    const s = getSpaces(spaceCount);
+    const n = `\n`;
+
     const currentTrack = tracks.slice( 0, 1 )[0];
     const remainingTracks = tracks.slice( 1 );
 
-    const cssStart = `[${currentTrack.trackName}-start]`;
-    const cssMiddle = `var(--${currentTrack.trackName})`;
-    const cssInnerTracks = this.generateTracks( remainingTracks );
-    const cssEnd = `[${currentTrack.trackName}-end]`;
+    const cssStart = `${s}[${currentTrack.trackName}-start]${n}`;
+    const cssMiddle1st = `${s}var(--${currentTrack.trackName})${n}`;
+    const cssInnerTracks = this.generateTracks( remainingTracks, spaceCount + 1 );
+    const cssMiddle2nd = currentTrack.trackType !== BreakoutTrack.INNERMOST ? `${s}var(--${currentTrack.trackName})${n}` : '';
+    const cssEnd = `${s}[${currentTrack.trackName}-end]`;
+    const endLine = spaceCount !== 1 ? `${n}` : '';
 
-    return `${cssStart}
-${cssMiddle}
-${cssInnerTracks}
-${currentTrack.trackType !== BreakoutTrack.INNERMOST ? cssMiddle : ''}
-${cssEnd}`;
+    return `${cssStart}${cssMiddle1st}${cssInnerTracks}${cssMiddle2nd}${cssEnd}${endLine}`;
   }
 
 }
@@ -103,4 +106,9 @@ export class BreakoutTrack {
   }
 
 
+}
+
+
+function getSpaces(spaceCount) {
+  return spaceCount ? '  '.repeat(spaceCount) : '';
 }
