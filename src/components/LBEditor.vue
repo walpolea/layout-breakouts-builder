@@ -146,6 +146,10 @@ onMounted( () => {
 
 <style lang='scss'>
 
+.configurator {
+  padding:2rem;
+}
+
 .preview-area {
   margin-block: 2rem;
 }

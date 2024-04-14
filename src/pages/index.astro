@@ -10,6 +10,19 @@ const pageMeta = {
 ---
 
 <Default meta={pageMeta}>
-	<h1>Layout Breakouts Builder</h1>
+	<header>
+		<h1>Layout Breakouts Builder</h1>
+		<h2>Created by <a href="https://andrewwalpole.com" target="_blank">Andrew Walpole</a></h2>
+		<p>Layout Breakouts is a pattern coined by Ryan Mulligan. Read about the concept <a href="https://ryanmulligan.dev/blog/layout-breakouts/" target="_blank">here</a>. The idea was then expanded-upon by <a href="https://www.youtube.com/watch?v=c13gpBrnGEw" target="_blank">Kevin Powell in a video</a> where he showed a trick to allow the concept to cascade down markup by nesting the full-width grid into itself, making this pattern useful and robust for setting the main page layout system on production websites.</p>
+
+		<p>While the concept is very useful once set, the setup is non-trivial, requiring a decent bit of CSS math. So I have built this generator to make it easier to configure the pattern for quick use.</p>
+	</header>
 	<LBEditor client:only />
 </Default>
+
+<style>
+	header {
+		padding: 2rem;
+		text-align:center;
+	}
+</style>
