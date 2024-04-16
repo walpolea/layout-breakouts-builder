@@ -14,9 +14,7 @@ export class LayoutBreakout {
   }
 
   generateCSS() {
-    return `
-
-.page-layout > :where(*), .full-width > :where(*) {
+    return `.page-layout > :where(*), .full-width > :where(*) {
   grid-column: ${this.defaultTrackName};
 }
 .page-layout, .full-width {
@@ -35,9 +33,9 @@ ${this.generateTracks( this.tracks )};
 
 /** CLASSES **/
 ${this.tracks.map(t => t.generateClasses()).join("\n")}
-
 .full-width { grid-column: full; }
-`;
+.full-content, .full-content-nopad { grid-column: full; }
+.full-content { padding-inline: var(--minimum-content-padding); }`;
 
   }
 
