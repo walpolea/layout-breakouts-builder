@@ -67,14 +67,15 @@
         <div class="new-track">
           <label>
             Add a new track: 
-            <input type="text" id="newTrackName" v-model="newTrackName" placeholder="Track Name" />
+            <input type="text" id="newTrackName" v-model="newTrackName" placeholder="Track Name" @keyup.enter="addTrack()" />
           </label>
-          <button class="add-track-btn" @click="addTrack()">Add</button>
+          <button class="add-track-btn" @click="addTrack()" >Add</button>
         </div>
       </div>
     
 
     <div class="code-area">
+      <button title="Copy CSS" class="copy-code-btn" @click="copy( lb.generateCSS() )">&lt;/&gt;</button>
       <code>
         <pre>{{ lb.generateCSS() }}</pre>
       </code>
@@ -87,7 +88,9 @@
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue';
 import { LayoutBreakout } from '../scripts/layoutbreakouts';
+import { useClipboard } from '@vueuse/core';
 
+const { text, copy, copied, isSupported } = useClipboard();
 
 
 const minimumContentPadding = ref('0px');
@@ -219,6 +222,7 @@ onMounted( () => {
 }
 
 .code-area {
+  position:relative;
   background:Black;
   color:White;
   
@@ -231,6 +235,27 @@ onMounted( () => {
 .default-content {
   background-color: papayawhip;
   text-align:center;
+}
+
+.copy-code-btn {
+  position:absolute;
+  top:15px;
+  right:15px;
+  width:40px;
+  height:40px;
+  background:MidnightBlue;
+  color:papayawhip;
+  font-weight:bold;
+  font-family: 'Courier New', Courier, monospace;
+  border-radius:4px;
+  border: 2px solid papayawhip;
+  cursor:pointer;
+
+  &:hover, &:active {
+    background: papayawhip;
+    color: midnightblue;
+    border-color: midnightblue;
+  }
 }
 
 </style>

@@ -14,7 +14,7 @@ export class LayoutBreakout {
   }
 
   generateCSS() {
-    return `.page-layout > :where(*), .full-width > :where(*) {
+    return `.page-layout > *, .full-width > * {
   grid-column: ${this.defaultTrackName};
 }
 .page-layout, .full-width {
