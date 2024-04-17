@@ -26,9 +26,7 @@
     <div class="configurator" :class="{[tracks?.[1].trackName]: usingLayout}">
       <p>Configure your layout breakouts! Tracks are ordered from outermost to innermost. The outermost track will always span full width. It's important that track maximum widths should decrease as you move inward.</p>
 
-      <div>
-        <label>Apply your Layout Breakouts to this Page? <input type="checkbox" v-model="usingLayout"></label>
-      </div>
+     
       <div>
         <label for="minimumContentPadding">
           Minimum Content Padding (Default inline spacing between content and track edges):<br>
@@ -74,7 +72,11 @@
           </label>
           <button class="add-track-btn" @click="addTrack()" >Add</button>
         </div>
+        <div style="margin-block:10px;">
+          <label><input type="checkbox" v-model="usingLayout" style="scale:1.4;margin-inline:10px;">Apply Layout Breakouts to this Page</label>
+        </div>
       </div>
+
     
 
     <div class="code-area" :class="{ 'full-width': usingLayout }">
