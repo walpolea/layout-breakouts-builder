@@ -1,8 +1,8 @@
 <template>
-  <div class="lb-editor">
+  <div class="lb-editor" :class="{ 'full-width': usingLayout }">
 
-    <div class="previews">
-      <div class="preview-area page-layout">
+    <div class="previews" :class="{ 'full-width': usingLayout }">
+      <div class="preview-area page-layout" :class="{ 'full-width': usingLayout }">
         <h3 style="text-align:center;">Desktop / Full View</h3>
         <div class="preview-content" v-for="track in tracks" :class="{[track.trackName]:true}">
           <strong>{{ track.trackName.toUpperCase() }} TRACK</strong> 
@@ -11,7 +11,7 @@
         <div class="preview-content default-content">Default content will sit in the <strong>{{ defaultTrack.toUpperCase() }}</strong> track.</div>
       </div>
       
-      <div class="preview-area-mobile">
+      <div class="preview-area-mobile" :class="{ 'full-width': usingLayout }">
         <div class="page-layout" >
           <h3 style="text-align:center;">Responsive / Mobile View</h3>
           <div class="preview-content" v-for="track in tracks" :class="{[track.trackName]:true}">
@@ -23,9 +23,12 @@
       </div>
     </div>
       
-    <div class="configurator">
+    <div class="configurator" :class="{[tracks?.[1].trackName]: usingLayout}">
       <p>Configure your layout breakouts! Tracks are ordered from outermost to innermost. The outermost track will always span full width. It's important that track maximum widths should decrease as you move inward.</p>
 
+      <div>
+        <label>Apply your Layout Breakouts to this Page? <input type="checkbox" v-model="usingLayout"></label>
+      </div>
       <div>
         <label for="minimumContentPadding">
           Minimum Content Padding (Default inline spacing between content and track edges):<br>
@@ -74,9 +77,9 @@
       </div>
     
 
-    <div class="code-area">
+    <div class="code-area" :class="{ 'full-width': usingLayout }">
       <button title="Copy CSS" class="copy-code-btn" @click="copy( lb.generateCSS() )">&lt;/&gt;</button>
-      <code>
+      <code :class="{[tracks?.[1].trackName]: usingLayout}">
         <pre>{{ lb.generateCSS() }}</pre>
       </code>
     </div>
@@ -92,7 +95,7 @@ import { useClipboard } from '@vueuse/core';
 
 const { text, copy, copied, isSupported } = useClipboard();
 
-
+const usingLayout = ref(false);
 const minimumContentPadding = ref('0px');
 const tracks = ref([
   {
